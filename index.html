@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+<title>Calibre — Nutrition Tracking</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="app-backdrop">
+
+  <div class="backdrop-label">
+    <span class="backdrop-tick">— 01</span>
+    <span>CALIBRE / NUTRITION OS</span>
+  </div>
+
+  <div class="phone-frame" id="phone-frame">
+    <div class="phone-notch"></div>
+
+    <div class="app-screen" id="app-screen">
+
+      <!-- ============ TOAST ============ -->
+      <div class="toast" id="toast"></div>
+
+      <!-- ============ ONBOARDING VIEW ============ -->
+      <section class="view view-onboarding" id="view-onboarding">
+
+        <div class="onboarding-progress">
+          <div class="onboarding-progress-fill" id="onboarding-progress-fill"></div>
+        </div>
+
+        <!-- STEP 0 : WELCOME -->
+        <div class="ob-step active" data-step="0">
+          <div class="ob-hero">
+            <div class="ob-wordmark">CALIBRE</div>
+            <div class="ob-tick-row" aria-hidden="true">
+              <span></span><span></span><span></span><span></span><span></span><span class="tall"></span><span></span><span></span><span></span><span></span><span></span><span class="tall"></span><span></span><span></span><span></span>
+            </div>
+            <p class="ob-tagline">Precision nutrition, calibrated to you.</p>
+          </div>
+          <div class="ob-body">
+            <label class="ob-label" for="input-name">What should we call you?</label>
+            <input type="text" id="input-name" class="ob-input" placeholder="Your first name" autocomplete="off" />
+          </div>
+          <div class="ob-footer">
+            <button class="btn-primary" id="btn-step0-next">Get started</button>
+          </div>
+        </div>
+
+        <!-- STEP 1 : BODY STATS -->
+        <div class="ob-step" data-step="1">
+          <div class="ob-header">
+            <span class="ob-eyebrow">Step 1 of 4</span>
+            <h2>Tell us about your body</h2>
+            <p class="ob-sub">This calibrates your baseline energy needs.</p>
+          </div>
+          <div class="ob-body">
+            <div class="ob-field-row">
+              <div class="ob-field">
+                <label class="ob-label" for="input-age">Age</label>
+                <input type="number" id="input-age" class="ob-input" placeholder="28" min="14" max="100" />
+              </div>
+              <div class="ob-field">
+                <label class="ob-label">Biological sex</label>
+                <div class="segmented" id="segmented-gender">
+                  <button type="button" class="segmented-opt active" data-value="female">Female</button>
+                  <button type="button" class="segmented-opt" data-value="male">Male</button>
+                </div>
+              </div>
+            </div>
+            <div class="ob-field-row">
+              <div class="ob-field">
+                <label class="ob-label" for="input-height">Height (cm)</label>
+                <input type="number" id="input-height" class="ob-input" placeholder="168" min="120" max="230" />
+              </div>
+              <div class="ob-field">
+                <label class="ob-label" for="input-weight">Weight (kg)</label>
+                <input type="number" id="input-weight" class="ob-input" placeholder="64" min="30" max="250" step="0.1" />
+              </div>
+            </div>
+          </div>
+          <div class="ob-footer split">
+            <button class="btn-ghost" data-back="0">Back</button>
+            <button class="btn-primary" id="btn-step1-next">Continue</button>
+          </div>
+        </div>
+
+        <!-- STEP 2 : ACTIVITY -->
+        <div class="ob-step" data-step="2">
+          <div class="ob-header">
+            <span class="ob-eyebrow">Step 2 of 4</span>
+            <h2>How active are you?</h2>
+            <p class="ob-sub">Choose the option closest to your typical week.</p>
+          </div>
+          <div class="ob-body">
+            <div class="choice-list" id="choice-activity">
+              <button type="button" class="choice-card" data-value="1.2">
+                <span class="choice-title">Sedentary</span>
+                <span class="choice-desc">Desk job, little to no exercise</span>
+              </button>
+              <button type="button" class="choice-card" data-value="1.375">
+                <span class="choice-title">Lightly active</span>
+                <span class="choice-desc">Light exercise 1–3 days a week</span>
+              </button>
+              <button type="button" class="choice-card active" data-value="1.55">
+                <span class="choice-title">Moderately active</span>
+                <span class="choice-desc">Moderate exercise 3–5 days a week</span>
+              </button>
+              <button type="button" class="choice-card" data-value="1.725">
+                <span class="choice-title">Very active</span>
+                <span class="choice-desc">Hard exercise 6–7 days a week</span>
+              </button>
+              <button type="button" class="choice-card" data-value="1.9">
+                <span class="choice-title">Elite / physical job</span>
+                <span class="choice-desc">Athlete-level training or labor</span>
+              </button>
+            </div>
+          </div>
+          <div class="ob-footer split">
+            <button class="btn-ghost" data-back="1">Back</button>
+            <button class="btn-primary" id="btn-step2-next">Continue</button>
+          </div>
+        </div>
+
+        <!-- STEP 3 : GOAL -->
+        <div class="ob-step" data-step="3">
+          <div class="ob-header">
+            <span class="ob-eyebrow">Step 3 of 4</span>
+            <h2>What's your goal?</h2>
+            <p class="ob-sub">We'll set a calibrated daily target from this.</p>
+          </div>
+          <div class="ob-body">
+            <div class="choice-list" id="choice-goal">
+              <button type="button" class="choice-card" data-value="lose">
+                <span class="choice-title">Lose weight</span>
+                <span class="choice-desc">Moderate deficit, ~0.5 kg / week</span>
+              </button>
+              <button type="button" class="choice-card active" data-value="maintain">
+                <span class="choice-title">Maintain weight</span>
+                <span class="choice-desc">Stay at your current energy balance</span>
+              </button>
+              <button type="button" class="choice-card" data-value="gain">
+                <span class="choice-title">Build muscle</span>
+                <span class="choice-desc">Modest surplus to support training</span>
+              </button>
+            </div>
+          </div>
+          <div class="ob-footer split">
+            <button class="btn-ghost" data-back="2">Back</button>
+            <button class="btn-primary" id="btn-step3-next">Calibrate my targets</button>
+          </div>
+        </div>
+
+        <!-- STEP 4 : REVIEW / TARGETS -->
+        <div class="ob-step" data-step="4">
+          <div class="ob-header">
+            <span class="ob-eyebrow">Step 4 of 4</span>
+            <h2>Your daily targets</h2>
+            <p class="ob-sub">Fine-tune anything before you start tracking.</p>
+          </div>
+          <div class="ob-body">
+            <div class="target-review-card">
+              <label class="ob-label" for="target-calories">Daily calories</label>
+              <div class="target-review-input">
+                <input type="number" id="target-calories" class="ob-input ob-input-lg" step="10" />
+                <span class="unit">kcal</span>
+              </div>
+            </div>
+            <div class="ob-field-row target-macro-row">
+              <div class="ob-field">
+                <label class="ob-label ob-label-carbs" for="target-carbs">Carbs</label>
+                <div class="target-review-input">
+                  <input type="number" id="target-carbs" class="ob-input" step="1" />
+                  <span class="unit">g</span>
+                </div>
+              </div>
+              <div class="ob-field">
+                <label class="ob-label ob-label-protein" for="target-protein">Protein</label>
+                <div class="target-review-input">
+                  <input type="number" id="target-protein" class="ob-input" step="1" />
+                  <span class="unit">g</span>
+                </div>
+              </div>
+              <div class="ob-field">
+                <label class="ob-label ob-label-fat" for="target-fat">Fat</label>
+                <div class="target-review-input">
+                  <input type="number" id="target-fat" class="ob-input" step="1" />
+                  <span class="unit">g</span>
+                </div>
+              </div>
+            </div>
+            <p class="ob-note">Calculated with the Mifflin-St Jeor formula. You can update these anytime from Profile.</p>
+          </div>
+          <div class="ob-footer split">
+            <button class="btn-ghost" data-back="3">Back</button>
+            <button class="btn-primary" id="btn-finish-onboarding">Start tracking</button>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- ============ DASHBOARD VIEW ============ -->
+      <section class="view view-dashboard hidden" id="view-dashboard">
+
+        <header class="app-header">
+          <div>
+            <div class="wordmark-sm">CALIBRE</div>
+            <div class="greeting" id="greeting-text">Hello</div>
+          </div>
+          <button class="icon-btn" id="btn-open-profile" aria-label="Profile & settings">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9c.14.42.42.78.79 1.02.34.23.74.36 1.16.36H21a2 2 0 0 1 0 4h-.09c-.42 0-.82.13-1.16.36-.37.24-.65.6-.79 1.02z"></path></svg>
+          </button>
+        </header>
+
+        <div class="date-strip" id="date-strip"></div>
+
+        <div class="ring-card" id="ring-card">
+          <div class="ring-wrap">
+            <svg viewBox="0 0 220 220" class="ring-svg">
+              <g class="ring-ticks" id="ring-ticks"></g>
+              <circle cx="110" cy="110" r="88" class="ring-track" />
+              <circle cx="110" cy="110" r="88" class="ring-progress" id="ring-progress" />
+            </svg>
+            <div class="ring-center">
+              <span class="ring-value" id="ring-remaining">2000</span>
+              <span class="ring-label">remaining</span>
+              <span class="ring-status" id="ring-status">On track</span>
+            </div>
+          </div>
+          <div class="ring-substats">
+            <div class="ring-substat">
+              <span class="ring-substat-label">Goal</span>
+              <span class="ring-substat-value" id="stat-goal">2000</span>
+            </div>
+            <div class="ring-substat">
+              <span class="ring-substat-label">Eaten</span>
+              <span class="ring-substat-value" id="stat-eaten">0</span>
+            </div>
+            <div class="ring-substat">
+              <span class="ring-substat-label">Left</span>
+              <span class="ring-substat-value" id="stat-left">2000</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="alert-card hidden" id="alert-over-budget">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+          <div>
+            <div class="alert-title">Over your calorie target</div>
+            <div class="alert-sub" id="alert-sub-text">You're 0 kcal over today's target.</div>
+          </div>
+        </div>
+
+        <div class="macro-bars">
+          <div class="macro-bar-item">
+            <div class="macro-bar-top">
+              <span class="macro-dot dot-carbs"></span>
+              <span class="macro-name">Carbs</span>
+              <span class="macro-figures" id="macro-carbs-figures">0 / 0g</span>
+            </div>
+            <div class="macro-track"><div class="macro-fill fill-carbs" id="macro-carbs-fill"></div></div>
+          </div>
+          <div class="macro-bar-item">
+            <div class="macro-bar-top">
+              <span class="macro-dot dot-protein"></span>
+              <span class="macro-name">Protein</span>
+              <span class="macro-figures" id="macro-protein-figures">0 / 0g</span>
+            </div>
+            <div class="macro-track"><div class="macro-fill fill-protein" id="macro-protein-fill"></div></div>
+          </div>
+          <div class="macro-bar-item">
+            <div class="macro-bar-top">
+              <span class="macro-dot dot-fat"></span>
+              <span class="macro-name">Fat</span>
+              <span class="macro-figures" id="macro-fat-figures">0 / 0g</span>
+            </div>
+            <div class="macro-track"><div class="macro-fill fill-fat" id="macro-fat-fill"></div></div>
+          </div>
+        </div>
+
+       <div class="meals-list" id="meals-list"></div>
+
+        <!-- Knop onderaan het dashboard -->
+        <div class="add-meal-action-wrap">
+          <button class="btn-primary btn-add-meal-main" id="btn-quick-add-meal">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+            <span>Maaltijd toevoegen</span>
+          </button>
+        </div>
+
+        <div class="bottom-spacer"></div>
+      </section>
+
+      <!-- ============ SEARCH / DATABASE VIEW ============ -->
+      <section class="view view-search hidden" id="view-search">
+        <header class="search-header">
+          <button class="icon-btn" id="btn-search-back" aria-label="Back">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+          </button>
+          <div class="search-header-text">
+            <span class="search-eyebrow">Adding to</span>
+            <span class="search-title" id="search-context-label">Snacks</span>
+          </div>
+          <button class="icon-btn icon-btn-accent btn-add-custom" id="btn-open-custom-modal" aria-label="Create custom item">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+            <span>ADD</span>
+          </button>
+        </header>
+
+        <div class="search-bar-wrap">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+          <input type="text" id="search-input" placeholder="Search foods and drinks..." autocomplete="off" />
+        </div>
+
+        <div class="filter-chips" id="filter-chips">
+          <button class="chip active" data-filter="all">All</button>
+          <button class="chip" data-filter="food">Foods</button>
+          <button class="chip" data-filter="drink">Beverages</button>
+          <button class="chip" data-filter="custom">My items</button>
+        </div>
+
+        <div class="meal-target-picker">
+          <span class="mtp-label">Log to:</span>
+          <div class="mtp-options" id="mtp-options">
+            <button class="mtp-opt" data-meal="breakfast">Breakfast</button>
+            <button class="mtp-opt" data-meal="lunch">Lunch</button>
+            <button class="mtp-opt" data-meal="dinner">Dinner</button>
+            <button class="mtp-opt" data-meal="snacks">Snacks</button>
+            <button class="mtp-opt" data-meal="beverages">Beverages</button>
+          </div>
+        </div>
+
+        <div class="db-list" id="db-list"></div>
+
+        <div class="bottom-spacer"></div>
+      </section>
+
+      <!-- ============ PROFILE / SETTINGS VIEW ============ -->
+      <section class="view view-profile hidden" id="view-profile">
+        <header class="search-header">
+          <button class="icon-btn" id="btn-profile-back" aria-label="Back">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+          </button>
+          <div class="search-header-text">
+            <span class="search-eyebrow">Account</span>
+            <span class="search-title">Profile & targets</span>
+          </div>
+          <div style="width:36px"></div>
+        </header>
+
+        <div class="profile-body">
+          <div class="ob-field">
+            <label class="ob-label" for="profile-name">Name</label>
+            <input type="text" id="profile-name" class="ob-input" />
+          </div>
+
+          <div class="ob-field-row">
+            <div class="ob-field">
+              <label class="ob-label" for="profile-age">Age</label>
+              <input type="number" id="profile-age" class="ob-input" />
+            </div>
+            <div class="ob-field">
+              <label class="ob-label">Sex</label>
+              <div class="segmented" id="profile-segmented-gender">
+                <button type="button" class="segmented-opt" data-value="female">Female</button>
+                <button type="button" class="segmented-opt" data-value="male">Male</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="ob-field-row">
+            <div class="ob-field">
+              <label class="ob-label" for="profile-height">Height (cm)</label>
+              <input type="number" id="profile-height" class="ob-input" />
+            </div>
+            <div class="ob-field">
+              <label class="ob-label" for="profile-weight">Weight (kg)</label>
+              <input type="number" id="profile-weight" class="ob-input" step="0.1" />
+            </div>
+          </div>
+
+          <div class="ob-field">
+            <label class="ob-label">Activity level</label>
+            <select id="profile-activity" class="ob-input">
+              <option value="1.2">Sedentary</option>
+              <option value="1.375">Lightly active</option>
+              <option value="1.55">Moderately active</option>
+              <option value="1.725">Very active</option>
+              <option value="1.9">Elite / physical job</option>
+            </select>
+          </div>
+
+          <div class="ob-field">
+            <label class="ob-label">Goal</label>
+            <select id="profile-goal" class="ob-input">
+              <option value="lose">Lose weight</option>
+              <option value="maintain">Maintain weight</option>
+              <option value="gain">Build muscle</option>
+            </select>
+          </div>
+
+          <button class="btn-secondary" id="btn-recalculate">Recalculate targets</button>
+
+          <div class="divider"></div>
+
+          <div class="target-review-card">
+            <label class="ob-label" for="profile-target-calories">Daily calories</label>
+            <div class="target-review-input">
+              <input type="number" id="profile-target-calories" class="ob-input ob-input-lg" step="10" />
+              <span class="unit">kcal</span>
+            </div>
+          </div>
+          <div class="ob-field-row target-macro-row">
+            <div class="ob-field">
+              <label class="ob-label ob-label-carbs" for="profile-target-carbs">Carbs</label>
+              <div class="target-review-input">
+                <input type="number" id="profile-target-carbs" class="ob-input" step="1" />
+                <span class="unit">g</span>
+              </div>
+            </div>
+            <div class="ob-field">
+              <label class="ob-label ob-label-protein" for="profile-target-protein">Protein</label>
+              <div class="target-review-input">
+                <input type="number" id="profile-target-protein" class="ob-input" step="1" />
+                <span class="unit">g</span>
+              </div>
+            </div>
+            <div class="ob-field">
+              <label class="ob-label ob-label-fat" for="profile-target-fat">Fat</label>
+              <div class="target-review-input">
+                <input type="number" id="profile-target-fat" class="ob-input" step="1" />
+                <span class="unit">g</span>
+              </div>
+            </div>
+          </div>
+
+          <button class="btn-primary" id="btn-save-profile">Save changes</button>
+          <button class="btn-text-danger" id="btn-reset-data">Reset all app data</button>
+        </div>
+
+        <div class="bottom-spacer"></div>
+      </section>
+
+      <!-- ============ BOTTOM NAV ============ -->
+      <nav class="bottom-nav hidden" id="bottom-nav">
+        <button class="nav-btn active" data-nav="dashboard">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9" rx="1.5"></rect><rect x="14" y="3" width="7" height="5" rx="1.5"></rect><rect x="14" y="12" width="7" height="9" rx="1.5"></rect><rect x="3" y="16" width="7" height="5" rx="1.5"></rect></svg>
+          <span>Dashboard</span>
+        </button>
+        <button class="nav-btn" data-nav="search">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+          <span>Search</span>
+        </button>
+        <button class="nav-btn" data-nav="profile">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+          <span>Profile</span>
+        </button>
+      </nav>
+
+    </div>
+  </div>
+</div>
+
+<!-- ============ CUSTOM ITEM MODAL ============ -->
+<div class="modal-overlay hidden" id="modal-custom-item">
+  <div class="modal-sheet">
+    <div class="modal-handle"></div>
+    <div class="modal-header">
+      <h3>New custom item</h3>
+      <button class="icon-btn" id="btn-close-modal" aria-label="Close">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="ob-field">
+        <label class="ob-label" for="custom-name">Name</label>
+        <input type="text" id="custom-name" class="ob-input" placeholder="e.g. Homemade granola" />
+      </div>
+      <div class="ob-field">
+        <label class="ob-label">Type</label>
+        <div class="segmented" id="custom-type-segmented">
+          <button type="button" class="segmented-opt active" data-value="food">Food</button>
+          <button type="button" class="segmented-opt" data-value="drink">Drink</button>
+        </div>
+      </div>
+      <div class="ob-field">
+        <label class="ob-label" for="custom-serving">Serving size</label>
+        <input type="text" id="custom-serving" class="ob-input" placeholder="e.g. 1 cup (90g)" />
+      </div>
+      <div class="ob-field">
+        <label class="ob-label" for="custom-calories">Calories (per serving)</label>
+        <input type="number" id="custom-calories" class="ob-input" placeholder="0" min="0" />
+      </div>
+      <div class="ob-field-row target-macro-row">
+        <div class="ob-field">
+          <label class="ob-label ob-label-carbs" for="custom-carbs">Carbs</label>
+          <div class="target-review-input">
+            <input type="number" id="custom-carbs" class="ob-input" placeholder="0" min="0" />
+            <span class="unit">g</span>
+          </div>
+        </div>
+        <div class="ob-field">
+          <label class="ob-label ob-label-protein" for="custom-protein">Protein</label>
+          <div class="target-review-input">
+            <input type="number" id="custom-protein" class="ob-input" placeholder="0" min="0" />
+            <span class="unit">g</span>
+          </div>
+        </div>
+        <div class="ob-field">
+          <label class="ob-label ob-label-fat" for="custom-fat">Fat</label>
+          <div class="target-review-input">
+            <input type="number" id="custom-fat" class="ob-input" placeholder="0" min="0" />
+            <span class="unit">g</span>
+          </div>
+        </div>
+      </div>
+      <p class="ob-note" id="custom-modal-note">This item will be saved to your searchable database.</p>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-primary" id="btn-save-custom-item">Save item</button>
+    </div>
+  </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
